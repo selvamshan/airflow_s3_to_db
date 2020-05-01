@@ -42,25 +42,6 @@ def push_data_to_s3_from_mysql():
     write_to_s3(data_csv)
 
 
-def notify_email(contextDict, **kwargs):
-    """Send custom email alerts."""
-
-    # email title.
-    title = "Airflow alert: {task_name} Failed".format(**contextDict)
-
-    # email contents
-    body = """
-    Hi Everyone, <br>
-    <br>
-    There's been an error in the {task_name} job.<br>
-    <br>
-    Forever yours,<br>
-    Airflow bot <br>
-    """.format(**contextDict)
-
-    send_email('you_email@address.com', title, body)
-
-
 default_args = {
     "owner" : "selvam",
     "depends_on_past" : False,
@@ -83,8 +64,7 @@ with DAG("mysql_to_s3", default_args=default_args) as dag:
 
     t2 = PythonOperator(
         task_id = "mysql_to_s3",
-        python_callable = push_data_to_s3_from_mysql,
-        on_failure_callback=notify_email,
+        python_callable = push_data_to_s3_from_mysql,        
     )
 
 
