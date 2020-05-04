@@ -33,7 +33,7 @@ def write_to_s3(data_csv):
     hook = S3Hook(aws_conn_id="aroha_s3_conn")
     key = Variable.get("S3_FILE_NAME")
     data =  data_csv
-    bucket_name =  Variable.get("S3_BUCKET_NAME")
+    bucket_name =  Variable.get("s3_bucket_name_1")
     hook.load_string(string_data=data, key=key, replace=True, bucket_name=bucket_name)
 
 def push_data_to_s3_from_mysql():
